@@ -1,0 +1,35 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Bb]uilds/
+*.csproj
+*.sln
+.DS_Store
+
+# Build products and local tooling
+[Bb]uild/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+.vs/
+.idea/
+*.user
+*.pidb
+*.suo
+*.unitypackage
+*.app/
+*.zip
+__pycache__/
+
+# Asset Store source packages are local dependencies, not public source assets.
+/Assets/Adventures_woman/
+/Assets/Adventures_woman.meta
+/Assets/Kevin Iglesias/
+/Assets/Kevin Iglesias.meta
+/Assets/Package Ready Assets/
+/Assets/Package Ready Assets.meta
+/Assets/VolumetricLines/
+/Assets/VolumetricLines.meta
+/Assets/Resources/Generated/BladeVolumetric.mat
+/Assets/Resources/Generated/BladeVolumetric.mat.meta
