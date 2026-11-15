@@ -42,7 +42,7 @@ public class ForceGame : MonoBehaviour {
     float waveDelay, lightningSound, channelVfx;
     LineRenderer aimLine; LineRenderer channelLine; AudioSource audioSource;
     AudioClip pushSound, lightningClip, healSound, hitSound, chokeSound;
-    public bool SkipInput;
+    public bool SkipInput;public NeuroInput neuro;
 
     void Awake() {
         Application.targetFrameRate=60;QualitySettings.vSyncCount=0;Time.maximumDeltaTime=.05f;
@@ -62,6 +62,7 @@ public class ForceGame : MonoBehaviour {
         audioSource=gameObject.AddComponent<AudioSource>(); audioSource.spatialBlend=0; audioSource.volume=MasterVolume*.5f;
         pushSound=Tone(100,.4f,2); lightningClip=Tone(65,.18f,1); healSound=Tone(480,.65f,0); hitSound=Tone(150,.12f,1); chokeSound=Tone(70,.4f,2);
         opening=gameObject.AddComponent<OpeningSequence>();opening.game=this;
+        neuro=gameObject.AddComponent<NeuroInput>();neuro.Initialize(this);
         gameObject.AddComponent<ForceHUD>().game=this;
     }
     void BuildPlayer(bool light){
@@ -84,6 +85,7 @@ public class ForceGame : MonoBehaviour {
     void Sound(AudioClip clip) { if(!muted && audioSource) audioSource.PlayOneShot(clip); }
     void Update() {
         if(!SkipInput) controls.Read();
+        bool trainingWasOpen=neuro.TrainingOpen;neuro.Tick();if(trainingWasOpen||neuro.TrainingOpen){UpdateCursor();return;}
         if(stage==DemoStage.Choice&&player)player.rotation=Quaternion.Slerp(player.rotation,Quaternion.Euler(0,-125f,0),Mathf.Min(Time.deltaTime,.05f)*3);
         if(!Application.isFocused&&!SkipInput){UpdateCursor();return;}
         if(stage==DemoStage.Opening){opening.Tick(Mathf.Min(Time.unscaledDeltaTime,.05f));UpdateCursor();return;}
@@ -124,9 +126,10 @@ public class ForceGame : MonoBehaviour {
         shake=Mathf.Max(0,shake-dt*2);
         audioSource.volume=MasterVolume*.5f;
     }
-    void UpdateCursor(){bool active=Playing&&!paused&&!SkipInput&&Application.isFocused;Cursor.lockState=active?CursorLockMode.Locked:CursorLockMode.None;Cursor.visible=!active&&stage!=DemoStage.Opening;}
+    void UpdateCursor(){bool active=Playing&&!paused&&!neuro.TrainingOpen&&!SkipInput&&Application.isFocused;Cursor.lockState=active?CursorLockMode.Locked:CursorLockMode.None;Cursor.visible=!active&&stage!=DemoStage.Opening;}
     public void Teleport(Vector3 position){if(motor)motor.enabled=false;player.position=position;if(motor)motor.enabled=true;planarVelocity=Vector3.zero;verticalSpeed=0;if(visuals)visuals.ResetMotion();}
     public void Begin(ForceSide chosen, bool playOpening=true) {
+        neuro.ResetControls();
         opening.Cancel();
         ClearCombat(); hitStopTime=lunge=castPose=hitMarker=0;side=chosen;BuildPlayer(chosen==ForceSide.Light); stage=DemoStage.Tutorial; stageTime=0; playTime=0; wave=0; kills=0;
         health=chosen==ForceSide.Light?58:100; energy=100; primaryCooldown=secondaryCooldown=dodgeCooldown=dodgeTime=0;
@@ -143,6 +146,7 @@ public class ForceGame : MonoBehaviour {
         opening.Cancel();stage=DemoStage.Tutorial;stageTime=0;inputGrace=.35f;noticeTime=0;orbit.ResetView();view.fieldOfView=62;UpdateCursor();
     }
     public void ReturnToMenu() {
+        neuro.ResetControls();
         opening.Cancel();
         ClearCombat(); stage=DemoStage.Choice; stageTime=0; paused=false; Time.timeScale=1;
         Teleport(new Vector3(0,0,-5));health=energy=stamina=100;attackTimer=dodgeTime=0;lockedTarget=null;visuals.roll=visuals.attack=0;visuals.blocking=false;visuals.speed=0;UpdateCursor();
@@ -320,7 +324,7 @@ public class ForceGame : MonoBehaviour {
         ClearCombat();stage=DemoStage.Boss;stageTime=0;Teleport(new Vector3(0,0,-7));facing=Vector3.forward;health=energy=stamina=100;orbit.ResetView();inputGrace=.25f;
         Spawn(new Vector3(0,0,6),false,true);Notify("RIFT WARDEN — Dodge attacks. Interrupt with the Force.",4);
     }
-    void LateUpdate() {
+    void LateUpdate() {if(neuro&&neuro.TrainingOpen)return;
         if(stage==DemoStage.BossIntro && !paused && controls.Confirm) StartBoss();
     }
     void Stagger(Enemy e,float value) {
@@ -439,7 +443,7 @@ public class ForceGame : MonoBehaviour {
         CombatFX.Sparks(effects,pos,color,count*2,6.5f);
         if(count>=8)CombatFX.Flash(effects,pos,color,count>=20?3.2f:1.6f);
     }
-    void OnApplicationFocus(bool focused){if(opening)opening.SetFocus(focused);if(!focused&&!SkipInput&&Playing){paused=true;Time.timeScale=0;planarVelocity=Vector3.zero;UpdateCursor();}}
+    void OnApplicationFocus(bool focused){if(neuro)neuro.FocusChanged(focused);if(neuro&&neuro.TrainingOpen)return;if(opening)opening.SetFocus(focused);if(!focused&&!SkipInput&&Playing){paused=true;Time.timeScale=0;planarVelocity=Vector3.zero;UpdateCursor();}}
     void OnDestroy() {Time.timeScale=1;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}
 }
 public class EnergyMote : MonoBehaviour {

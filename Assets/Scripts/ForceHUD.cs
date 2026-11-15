@@ -43,11 +43,12 @@ public class ForceHUD : MonoBehaviour {
     void Start() { theater = gameObject.AddComponent<MenuTheater>(); theater.game = game; }
     void Update() {
         if (!game || (!Application.isFocused && !game.SkipInput)) return;
+        if(game.neuro.TrainingOpen)return;
         if (game.paused != wasPaused) { SetPage(MenuPage.Home); wasPaused = game.paused; }
         if (game.stage != DemoStage.Choice && !game.paused) return;
         if (game.controls.Light) { game.Begin(ForceSide.Light); return; }
         if (game.controls.Dark) { game.Begin(ForceSide.Dark); return; }
-        int count = page == MenuPage.Home ? 4 : page == MenuPage.Side ? 2 : page == MenuPage.Settings ? 4 : 1;
+        int count = page == MenuPage.Home ? 4 : page == MenuPage.Side ? 2 : page == MenuPage.Settings ? 8 : 1;
         if (game.controls.Navigate != 0) selection = (selection + game.controls.Navigate + count) % count;
         if (page == MenuPage.Side && game.controls.Adjust != 0) selection = Mathf.Clamp(selection + game.controls.Adjust, 0, 1);
         if (page == MenuPage.Settings && game.controls.Adjust != 0) Adjust(game.controls.Adjust);
@@ -63,12 +64,17 @@ public class ForceHUD : MonoBehaviour {
             else if (game.paused) game.ReturnToMenu(); else Application.Quit();
         } else if (page == MenuPage.Side) game.Begin(selection == 0 ? ForceSide.Light : ForceSide.Dark);
         else if (page == MenuPage.Controls) SetPage(MenuPage.Home);
-        else if (selection == 3) SetPage(MenuPage.Home); else Adjust(1);
+        else if (selection == 7) SetPage(MenuPage.Home);
+        else if(selection==5) game.neuro.OpenTraining();
+        else if(selection==6) game.neuro.ConnectService();
+        else Adjust(1);
     }
     public void Adjust(int amount) {
         if (selection == 0) { game.MasterVolume = Mathf.Clamp01(game.MasterVolume + amount * .1f); PlayerPrefs.SetFloat("MasterVolume", game.MasterVolume); }
         else if (selection == 1) { game.orbit.sensitivity = Mathf.Clamp(game.orbit.sensitivity + amount * .1f, .3f, 2); PlayerPrefs.SetFloat("CameraSensitivity", game.orbit.sensitivity); }
         else if (selection == 2) { game.orbit.atmosphere.bloom = !game.orbit.atmosphere.bloom; PlayerPrefs.SetInt("Bloom", game.orbit.atmosphere.bloom ? 1 : 0); }
+        if(selection==3)game.neuro.SetMode(game.neuro.Mode==NeuroMode.Simulation?NeuroMode.EEG:NeuroMode.Simulation);
+        if(selection==4)game.neuro.NextProfile();
         PlayerPrefs.Save();
     }
     void Box(Rect r, Color c) { Color old = GUI.color; GUI.color = c; GUI.DrawTexture(r, white); GUI.color = old; }
@@ -99,7 +105,8 @@ public class ForceHUD : MonoBehaviour {
         scale = Mathf.Min(Screen.width/1600f,Screen.height/900f);
         offset = new Vector2((Screen.width-1600*scale)/2,(Screen.height-900*scale)/2);
         GUI.matrix = Matrix4x4.TRS(new Vector3(offset.x,offset.y,0),Quaternion.identity,Vector3.one*scale);
-        if (game.stage == DemoStage.Choice) Menu();
+        if(game.neuro.TrainingOpen)Training();
+        else if (game.stage == DemoStage.Choice) Menu();
         else if (game.stage == DemoStage.Opening) Opening();
         else if (game.paused) Menu();
         else if (game.stage == DemoStage.BossIntro) BossIntro();
@@ -167,18 +174,69 @@ public class ForceHUD : MonoBehaviour {
         }
         if(Row(new Rect(82,740,300,54),"Back",0)) SetPage(MenuPage.Home);
     }
+    public void AfterTraining(){wasPaused=game.paused;SetPage(MenuPage.Settings);}
     void Settings() {
-        Label(new Rect(100,145,1200,70),"Settings",44,null,true);
+        var n=game.neuro;
+        Label(new Rect(100,100,1200,70),"Settings",44,null,true);
         string[] labels={"Volume","Camera sensitivity","Bloom"};
-        string[] values={Mathf.RoundToInt(game.MasterVolume*100)+"%",game.orbit.sensitivity.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)+"×",game.orbit.atmosphere.bloom?"On":"Off"};
+        string[] values={Mathf.RoundToInt(game.MasterVolume*100)+"%",game.orbit.sensitivity.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+"×",game.orbit.atmosphere.bloom?"On":"Off"};
         for(int i=0;i<3;i++){
-            float y=325+i*92;
-            if(Row(new Rect(82,y,1040,62),labels[i],i)){selection=i;Adjust(1);}
-            Label(new Rect(780,y+15,310,36),values[i],22,null,false,TextAnchor.UpperRight);
-            if(Button(new Rect(1170,y+6,48,48),"−",selection==i)){selection=i;Adjust(-1);}
-            if(Button(new Rect(1234,y+6,48,48),"+",selection==i)){selection=i;Adjust(1);}
+            float y=245+i*89;
+            if(Row(new Rect(82,y,520,62),labels[i],i)){selection=i;Adjust(1);}
+            Label(new Rect(390,y+15,200,36),values[i],22,null,false,TextAnchor.UpperRight);
+            if(Button(new Rect(635,y+6,46,46),"−",selection==i)){selection=i;Adjust(-1);}
+            if(Button(new Rect(691,y+6,46,46),"+",selection==i)){selection=i;Adjust(1);}
         }
-        if(Row(new Rect(82,740,300,54),"Back",3)) SetPage(MenuPage.Home);
+        if(Row(new Rect(852,245,640,62),"Input mode",3)){selection=3;Adjust(1);}
+        Label(new Rect(1110,260,380,36),n.Mode==NeuroMode.Simulation?"Simulation":"EEG + gestures",22,game.Accent,false,TextAnchor.UpperRight);
+        if(Row(new Rect(852,334,180,62),"Profile",4)){selection=4;Adjust(1);}
+        n.Profile.name=Field(new Rect(1050,343,250,42),n.Profile.name);if(GUI.changed)n.SaveProfiles();
+        if(Button(new Rect(1315,340,48,46),"→"))n.NextProfile();
+        if(Button(new Rect(1380,340,90,46),"+ New"))n.NewProfile();
+        if(Row(new Rect(852,423,640,62),"Start training",5)){selection=5;n.OpenTraining();}
+        if(Row(new Rect(852,512,640,62),n.Connected?"Input service connected":"Connect EEG input",6)){selection=6;n.ConnectService();}
+        Label(new Rect(870,585,610,64),n.Mode==NeuroMode.Simulation?"No headset needed. Practice gestures and imagination inputs together.":n.ServiceHint,18,muted);
+        if(n.Mode==NeuroMode.EEG){
+            Label(new Rect(870,665,200,30),"Python interpreter",17,muted);n.PythonPath=Field(new Rect(870,700,600,40),n.PythonPath);
+            Label(new Rect(870,750,170,30),"Headset serial",17,muted);n.HeadsetSerial=Field(new Rect(1055,744,415,40),n.HeadsetSerial);
+            if(GUI.changed)n.SaveConnection();
+        }else Label(new Rect(100,590,625,105),"Simulation: hold Z / X / C / V for Push / Heal / Choke / Lightning. Add Ctrl to simulate imagination. Q / E remain available for normal play.",19,muted);
+        if(Row(new Rect(82,785,300,54),"Back",7))SetPage(MenuPage.Home);
+    }
+    string Field(Rect r,string value){
+        var style=new GUIStyle(GUI.skin.textField){font=regular,fontSize=18,padding=new RectOffset(12,12,8,8)};style.normal.textColor=text;return GUI.TextField(r,value,240,style);
+    }
+    void Training(){
+        var n=game.neuro;Box(Full,new Color(.006f,.009f,.015f,.37f));GUI.DrawTexture(new Rect(Full.x,Full.y,1120,Full.height),shade);
+        string phase=n.Phase;bool finished=phase=="complete"||phase=="failed";
+        Label(new Rect(80,60,950,70),n.Mode==NeuroMode.Simulation?"Training practice":"Personal training",42,null,true);
+        Label(new Rect(82,140,900,40),n.Profile.name+"  ·  "+(n.Mode==NeuroMode.Simulation?"Simulated input":n.PersonalModel?"Personal EEG model":"New EEG profile"),19,muted);
+        string title,copy;
+        if(n.TrainingPaused){title="Session paused";copy="Return to a comfortable position, then resume. The current trial will restart.";}
+        else if(finished){title=phase=="failed"?"Try this session again":n.Mode==NeuroMode.Simulation?"Practice complete":"Training complete";copy=n.Mode==NeuroMode.Simulation?"No EEG model was trained. Switch to EEG to record your own headset data.":n.TrainingMessage;}
+        else if(phase=="fitting"){title="Learning your signal…";copy="Keep the headset connected. Your recordings are being fitted to a personal model.";}
+        else if(n.Mode==NeuroMode.EEG&&(!n.SignalReady||phase=="ready")){title="Check your headset";copy="Connect the camera and EEG service. Adjust electrode contact, then begin.";}
+        else if(phase=="rest"){title="Relax  "+Mathf.CeilToInt(n.Countdown)+" s";copy="Lower your hands and let go of the imaginary action.\nNext: "+n.TargetAbility+(n.TargetImagined?" with imagination.":" without imagination.");}
+        else {title=n.TargetAbility+(n.TargetImagined?" + imagination":" · gesture only");var scenario=System.Array.Find(n.Definitions.scenarios,x=>x.ability==n.TargetAbility);copy=(scenario?.gesture??"Perform the requested gesture.")+"\n"+(n.TargetImagined?(scenario?.trigger??"Imagine the effect."):"Do not imagine the spell. Make only the hand gesture.")+" Hold 3–4 s, then release.";}
+        Label(new Rect(80,212,875,100),title,38,null,true);
+        Label(new Rect(82,314,800,110),copy,23);
+        if(n.TrialTotal>0){if(phase=="act"&&!n.TrainingPaused)Label(new Rect(82,400,790,30),n.TrainingMessage,16,muted);
+        Label(new Rect(82,438,790,30),"Trial "+Mathf.Min(n.TrialIndex+1,n.TrialTotal)+" / "+n.TrialTotal+"  ·  Recorded "+n.Completed+"  ·  Skipped "+n.Missed,17,muted);Bar(82,480,720,3,n.TrialIndex/(float)n.TrialTotal,game.Accent);}
+        string[] names={"Push","Heal","Choke","Lightning"};
+        Label(new Rect(82,515,220,30),"Detected input",17,muted);Label(new Rect(360,515,360,30),n.Mode==NeuroMode.Simulation?"Simulated imagination":"EEG score / threshold",17,muted);
+        for(int i=0;i<4;i++){
+            float y=554+i*43;bool detected=n.Gesture==names[i];float cv=detected?1:0,eeg=n.Mode==NeuroMode.Simulation?n.SimulatedScore:.0f,threshold=.5f;
+            var score=n.Live?.scores==null?null:System.Array.Find(n.Live.scores,x=>x.ability==names[i]);if(score!=null){cv=score.cv;eeg=score.eeg;threshold=score.threshold;}
+            Label(new Rect(82,y,160,30),names[i],19,detected?text:muted,detected);Bar(245,y+10,75,3,cv,game.Accent);Bar(360,y+8,280,7,eeg,detected?game.Accent:muted);Box(new Rect(360+Mathf.Clamp01(threshold)*280,y+4,2,15),text);
+            Label(new Rect(667,y-1,120,30),Mathf.RoundToInt(eeg*100)+"%",18,muted);if(n.IsActive(names[i]))Label(new Rect(795,y-1,145,30),"Active",18,game.Accent);
+        }
+        string footer=n.Mode==NeuroMode.Simulation?"Hold Z / X / C / V · add Ctrl for imagination\nPad: hold R1 for the requested gesture · add L1 for imagination":n.ServiceHint;
+        Label(new Rect(82,747,860,58),footer,17,muted);
+        if(n.TrainingPaused){if(Button(new Rect(80,827,230,48),"Resume"))n.ResumeTraining();}
+        else if(n.Mode==NeuroMode.EEG&&!n.Connected){if(Button(new Rect(80,827,250,48),"Connect input"))n.ConnectService();}
+        else if(finished||n.Mode==NeuroMode.EEG&&phase=="ready"){if(Button(new Rect(80,827,250,48),finished?"Start again":"Begin session"))n.StartSession();}
+        if(Button(new Rect(350,827,230,48),"Back to settings"))n.CloseTraining();
+        if(n.Mode==NeuroMode.EEG&&n.Live?.contacts!=null){int row=0;foreach(var c in n.Live.contacts)Label(new Rect(1050,570+row++*34,450,35),c.channel+" · "+c.status,18,c.status=="OK"?text:ArenaArt.Red);}
     }
     void Bar(float x,float y,float width,float height,float value,Color color){
         Box(new Rect(x-1,y-1,width+2,height+2),new Color(.006f,.009f,.015f,.85f));
