@@ -29,7 +29,5 @@ Start with the [project overview and quick start](../README.md).
 These are historical reports, not new hardware validation.
 
 - [Complete project verification](COMPLETE-PROJECT-VERIFICATION.md)
-- [v12 integration report](verification/verification-v12.txt)
-- [v13 integration report](verification/verification-v13.txt)
 
 To check the Unity project locally, use **Force Demo → Verify complete project** in the editor. `CompleteProjectBootstrap.VerifyAndBuild` verifies dependencies and builds the macOS application; `DemoBuild.BuildPreparedMac` rebuilds the prepared assets.
