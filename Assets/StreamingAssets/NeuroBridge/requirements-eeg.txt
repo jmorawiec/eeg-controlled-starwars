@@ -1,0 +1,12 @@
+# Runtime for the real camera + BCI Core-8 adapter. Use Python 3.11.
+# The upstream saved model requires the same scikit-learn version.
+numpy>=2.0
+scipy>=1.17
+pandas>=2.0
+joblib>=1.5
+scikit-learn==1.9.1
+gpype==4.2.0
+gtec-ble==2.9.4
+mediapipe>=0.10
+opencv-python>=4.10
+ai-edge-litert>=2.3
