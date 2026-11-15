@@ -53,4 +53,4 @@ The default simulation is self-contained. Real camera/headset input additionally
 
 The runtime supports `--verify-demo`, `--verify-neuro` and `--verify-opening`. An isolated port can be selected with `--neuro-port=5567` and reports directed with `--qa-output=/absolute/path`.
 
-[Training screen](Documentation/training-v13.png) · [Original v13 integration checks](Documentation/verification-v13.txt) · [Visual direction](ART-DIRECTION.md)
+[Complete snapshot verification](Documentation/COMPLETE-PROJECT-VERIFICATION.md) · [Training screen](Documentation/training-v13.png) · [Original v13 integration checks](Documentation/verification-v13.txt) · [Visual direction](ART-DIRECTION.md)
