@@ -1,10 +1,6 @@
 # Gesture + EEG integration (v13)
 
-The teammate project is pinned as the Git submodule [`External/GestureInput`](https://github.com/KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input/tree/57f56f9dcbaca4f6e177c91bb25299c8be6e2447). Initialize it with:
-
-```sh
-git submodule update --init --recursive
-```
+The teammate project is included directly in `External/GestureInput` at revision `57f56f9dcbaca4f6e177c91bb25299c8be6e2447`. This complete-project branch includes its runtime source, models and the prepared StreamingAssets adapter; no submodule initialization is required. See `External/GestureInput/UPSTREAM.md` for provenance.
 
 The integration keeps the existing movement, camera, attack, block and roll controls. EEG mode owns the four Force powers. The game's interface remains in English.
 
@@ -50,7 +46,7 @@ Fitting runs in a worker thread while telemetry continues. A successful model is
 
 ## Data and lifecycle
 
-Private recordings, fitted models, reports and the process log are stored under Unity's `Application.persistentDataPath/InputProfiles/`, separated by generated profile IDs. Profile names/selection are in `profiles.json`. No participant recordings are copied to Git or into the application bundle. `NeuroBridgeBuild.Stage` includes only the upstream code, model files needed at runtime, notices and protocol documentation; it excludes the upstream recording dataset.
+Private recordings, fitted models, reports and the process log are stored under Unity's `Application.persistentDataPath/InputProfiles/`, separated by generated profile IDs. Profile names/selection are in `profiles.json`. No participant recordings are copied to Git or into the application bundle. `NeuroBridgeBuild.Stage` includes the upstream code, model files needed at runtime, notices and protocol documentation; it excludes the upstream recording dataset.
 
 Leaving training saves partial EEG separately and returns to Settings. Losing focus pauses the current trial; Resume restarts it from rest, without labelling an interrupted gesture. In gameplay, stale telemetry (1.5 s), disconnect, bad contact, a menu, or a side change releases held input. EEG mode accepts only confirmed `ability_*` events from the current profile and a ready personal model; camera-only fallback and raw gesture events cannot cast powers.
 
@@ -74,7 +70,7 @@ The adapter can also be launched explicitly:
 
 ## Build and verification
 
-`DemoBuild.BuildPreparedMac` stages the Python adapter automatically. In the Editor, use **Force Demo → Stage EEG bridge** after initializing the submodule and before trying real EEG. The generated StreamingAssets payload is ignored by Git.
+`DemoBuild.BuildPreparedMac` stages the Python adapter automatically. In the Editor, use **Force Demo → Stage EEG bridge** to regenerate the adapter after editing its source. The prepared StreamingAssets payload is included in this branch.
 
 ```sh
 python3 tools/NeuroBridge/tests/test_adapter.py

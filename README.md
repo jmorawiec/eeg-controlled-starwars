@@ -1,86 +1,56 @@
-# Echoes of the Force — demo v13
+# Echoes of the Force — complete Unity project v13
 
-A Heroes of the Brain demo with Light and Dark paths, a third-person camera, a mentor tutorial, two enemy waves and a boss. Supports keyboard and mouse and PlayStation controller layouts. Gesture and EEG input, per-player training and a hardware-free simulator are included in v13; see [Neuro input](Documentation/NEURO-INPUT.md).
+This is the **`unity/full-project-v13`** branch. It contains the complete playable Unity project: character models, textures, humanoid animations, materials, shaders, environment assets, prefabs, scene, settings, and the prepared gesture/EEG adapter. The teammate input source is included directly at its pinned revision; there is no submodule setup step on this branch.
 
-## Clone and restore dependencies
+## Open and play
 
-This public repository contains the Unity source project. Large redistributable assets use **Git LFS**:
+Install **Git LFS** and **Unity 6000.6.9f1**. Then:
 
 ```sh
 git lfs install
-git clone --recurse-submodules https://github.com/jmorawiec/eeg-controlled-starwars.git
+git clone --branch unity/full-project-v13 --single-branch https://github.com/jmorawiec/eeg-controlled-starwars.git
 cd eeg-controlled-starwars
 git lfs pull
 ```
 
-**Before opening a fresh clone, restore the four Asset Store packages described in [Local dependencies](Documentation/PRIVATE-ASSETS.md).** Their source files remain local and are intentionally excluded from this public repository. The project will not compile or reproduce the complete demo until they are restored. Cache folders and built applications are also excluded.
+Open the cloned folder in Unity Hub using **6000.6.9f1**. Wait for the first import and Unity Package Manager to restore the pinned packages. The playable **Temple** scene opens automatically in a fresh Editor session. Press **Play**.
 
-[Training screen](Documentation/training-v13.png) · [Neuro input setup](Documentation/NEURO-INPUT.md) · [Verification report](Documentation/verification-v13.txt) · [Opening preview](Documentation/opening-v12.mp4)
+The game starts in **Simulation** mode. Keyboard/mouse and PlayStation controls work immediately, including the tutorial, both sides, four Force powers, opening cinematic, two waves and boss. **Settings → Start training** runs the 32-trial input practice without Python or a headset.
 
-## Run
+If Git LFS is missing, large files will remain small text pointers rather than actual models and textures. Run `git lfs install` and `git lfs pull` before opening the Editor. A normal checkout/pull with LFS installed restores the assets automatically.
 
-If you have the separately distributed macOS build, extract `Echoes-of-the-Force-v13-macOS.zip` and open `Echoes of the Force v13.app`. Build archives are not committed here.
+## Included project content
 
-Open the source project in **Unity 6000.6.9f1** and load `Assets/Scenes/Temple.unity`. **Input System 1.20.1** is pinned in the package manifest. The environment and actors are created when Play starts. The project uses the Built-in Render Pipeline.
+- Adventure Female, MP_Clovis, Human Basic Motions FREE and Volumetric Lines source files, with their original `.meta` identifiers.
+- Prepared Light/Dark characters, armored enemies, humanoid controllers, Quaternius combat clips, weapon, materials and shaders.
+- Poly Haven environment models and textures, Unity Companion License sources and generated scene variants.
+- The prepared `Assets/StreamingAssets/NeuroBridge/` payload, including runtime hand models and the baseline EEG model.
+- The pinned teammate source at `External/GestureInput` (commit `57f56f9dcbaca4f6e177c91bb25299c8be6e2447`), directly included rather than linked as a submodule.
 
-## Opening sequence
-
-Choosing a side starts a 14-second in-engine cinematic: an approach through the valley, the mentor's invitation, the chosen hero's blade reveal, and a transition into the shoulder camera. Auren and Veyr have different English dialogue subtitles. An original ambient musical bed accompanies the sequence; dialogue is subtitled, not voiced.
-
-Skip with **Enter, Space or Escape**, or **×, ○ or Options** on a PlayStation controller. A short input grace period prevents the selection press from immediately skipping the intro. Gameplay input, enemies, resources and the run timer remain frozen until the tutorial begins. The sequence pauses when the application loses focus.
-
-All player-facing interface text, tutorial instructions, notifications and the weapon name are in English. The weapon is now called **Glowing Stick**.
-
-## Interface and environment
-
-The main menu uses an animated, softly blurred scene background and a live character portrait. Side selection fills the entire screen with blue and red halves; the inactive half is dimmed. A confirmation button and brighter text identify the active side. Barlow is used throughout. The HUD contains three resource bars, two powers and short tutorial prompts, without decorative headings or slogans.
-
-The Light path uses the owned **Adventure Female** character; the Dark path uses hooded **MP_Clovis**. Guards and the boss use Terraformer armor; ranged enemies and the mentor use Clovis. Clothing materials are separate from weapon materials.
-
-The temple valley includes a stone colonnade, garden and gallery paths, low cover, statues, aqueduct ruins and distant waterfalls. Enemies check cover collision during movement and knockback. Vegetation instances use individual model variants rather than entire source packs. Stone materials combine scanned albedo, normals and AO/roughness with world-space moss. Lighting uses warm fire against cool stone, restrained bloom and a character fill light.
-
-## Combat and animation
-
-Sword cuts and recoveries come from **Quaternius Universal Animation Library 2 Standard**. Ready, cast, hit and death animations come from **Universal Animation Library Standard**. The retargeted humanoid clips are saved in `Assets/Resources/Generated/Cinematic/`.
-
-Three attacks take **0.76 / 0.80 / 1.02 seconds**, with impact at **0.29 / 0.31 / 0.45 seconds**. The next attack can be buffered. Whole-body attacks have a restrained forward assist; guard and channeling can layer over directional locomotion. Hits trigger recoil, brief hit stop and a limited blade trail.
-
-Basic attacks, block and roll remain available at zero Force energy. An attack costs 18 stamina and a roll costs 25. Melee reach is 2.15 m to a normal enemy's center and 2.35 m for the boss. A roll takes 0.78 seconds and covers about 2.8 m. A timely parry interrupts an enemy; defeated enemies play a fall animation.
-
-Eight-direction walking and running use **Human Basic Motions FREE**. The character controller owns world movement; animation root trajectories must not move the skeleton away from its capsule.
+Unity's cache, temporary files, machine-specific Python environments and participant recordings are not project dependencies and are not versioned. Unity recreates its cache on first import. Third-party assets retain their original license terms; see [asset credits](ASSET-CREDITS.md) and the included license notices.
 
 ## Controls
 
 | Action | Keyboard and mouse | PlayStation |
 | --- | --- | --- |
-| Move | WASD | Left stick |
-| Camera | Mouse movement | Right stick |
-| Basic attack | LMB or J | R1 |
-| Hold block | RMB or K | L1 |
+| Move / camera | WASD / mouse | Left / right stick |
+| Attack / block | LMB or J / hold RMB or K | R1 / hold L1 |
 | Roll | Space | ○ |
-| First power | Q | R2 |
-| Second power | E | L2 |
-| Toggle lock-on | Tab or middle mouse | △ |
-| Sprint | Hold Left Shift | Hold L3 |
-| Pause | Escape | Options |
-| Navigate menu | ↑ / ↓ or mouse | D-pad / left stick |
-| Confirm | Enter or click | × |
-| Back | Escape | ○ |
-| Adjust settings | ← / → or − / + | D-pad ← / → |
-| Skip opening | Enter / Space / Escape | × / ○ / Options |
+| Force powers | Q / E | R2 / L2 |
+| Lock-on | Tab / middle mouse | △ |
+| Sprint / pause | Left Shift / Escape | L3 / Options |
+| Confirm / back | Enter / Escape | × / ○ |
 
-**Enter / ×** advances after training and starts the boss encounter. At the end, it returns to the menu. Menu shortcuts **1 / 2** choose Light / Dark respectively. The camera captures the cursor during gameplay; pausing releases it. Volume, camera sensitivity and bloom are adjustable in Settings.
+Light: **Force Push / Force Heal**. Dark: **Force Lightning / Force Choke**. Simulation gestures: hold **Z / X / C / V**, adding **Ctrl** for imagined intent. In training, pad **R1** performs the requested simulated gesture; **L1** adds imagination.
 
-## Force powers
+## Optional real EEG mode
 
-Light: **Force Push** — Q / R2; **Force Heal** — E / L2. Dark: hold Q / R2 for **Force Lightning**, or E / L2 for **Force Choke**. Directed powers have a 9 m range.
+The default simulation is self-contained. Real camera/headset input additionally requires the BCI Core-8, an appropriate Python 3.11 environment and OS device access. See [EEG setup and personal training](Documentation/NEURO-INPUT.md). The complete Unity asset snapshot does not replace device drivers or a person's EEG calibration. Personal recordings and models stay under `Application.persistentDataPath/InputProfiles/`.
 
-## Build and verification
+## Verification and builds
 
-`DemoBuild.BuildMac` regenerates assets, the scene and the macOS application. `DemoBuild.BuildPreparedMac` rebuilds the application from existing prepared assets.
+**Force Demo → Verify complete project** checks the included source assets, three prepared character rigs, materials and animation dependencies. `CompleteProjectBootstrap.VerifyAndBuild` performs that check and builds the macOS application. `DemoBuild.BuildPreparedMac` rebuilds from the prepared assets.
 
-`CinematicBuild.BuildAndRelease` refreshes the heroine, combat clips and materials before building. Prepared clips preserve stable identifiers. `CinematicAudit` checks hand movement and foot contact; `MotionAudit` checks that running does not move the model away from its capsule.
+The runtime supports `--verify-demo`, `--verify-neuro` and `--verify-opening`. An isolated port can be selected with `--neuro-port=5567` and reports directed with `--qa-output=/absolute/path`.
 
-Opt-in application checks: `--verify-demo`, `--verify-motion`, `--verify-opening`, `--verify-neuro`, `--verify-performance`, `--ui-review` and `--art-review`. Direct reports and captures with `--qa-output=/absolute/path`. The opening verification also records frames and timestamps for review. Normal launches do not run checks or reposition targets for verification. Controller mapping checks use synthetic input and do not constitute physical controller testing.
-
-See `ASSET-CREDITS.md` for asset sources and licenses and `ART-DIRECTION.md` for visual direction.
+[Complete snapshot verification](Documentation/COMPLETE-PROJECT-VERIFICATION.md) · [Training screen](Documentation/training-v13.png) · [Original v13 integration checks](Documentation/verification-v13.txt) · [Visual direction](ART-DIRECTION.md)
