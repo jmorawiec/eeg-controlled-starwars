@@ -9,6 +9,7 @@ public class ShoulderCamera:MonoBehaviour {
     public void ResetView(){yaw=0;pitch=12;followVelocity=Vector3.zero;distance=4.25f;transform.rotation=Quaternion.Euler(pitch,yaw,0);transform.position=game.player.position+Vector3.up*1.4f+transform.rotation*new Vector3(.4f,.35f,-distance);}
     void LateUpdate(){
         if(!game||!game.player)return;
+        if(game.neuro&&game.neuro.TrainingOpen){atmosphere.menu=false;game.view.fieldOfView=46;Vector3 hero=game.player.position;transform.position=hero+new Vector3(-2.1f,1.6f,4.1f);transform.LookAt(hero+new Vector3(1.65f,1.12f,.1f));return;}
         if(game.stage==DemoStage.Opening){atmosphere.menu=false;game.opening.RenderCamera();return;}
         bool menu=game.stage==DemoStage.Choice;atmosphere.menu=game.paused||menu;
         game.view.fieldOfView=Mathf.Lerp(game.view.fieldOfView,(menu?50f:62f)+(game.dodgeTime>0?3.5f:0)-punch*5.5f,1-Mathf.Exp(-Time.unscaledDeltaTime*20));punch=Mathf.MoveTowards(punch,0,Time.unscaledDeltaTime*8);

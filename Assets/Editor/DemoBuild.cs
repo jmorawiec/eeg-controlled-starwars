@@ -33,10 +33,11 @@ public static class DemoBuild {
         Prepare();BuildPreparedMac();
     }
     public static void BuildPreparedMac(){
-        PlayerSettings.bundleVersion="0.12.0";PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.HeroesOfTheBrain.EchoesOfTheForceV12");
+        NeuroBridgeBuild.Stage();
+        PlayerSettings.bundleVersion="0.13.0";PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.HeroesOfTheBrain.EchoesOfTheForceV13");
         PlayerSettings.macRetinaSupport=false;PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.defaultIsNativeResolution=false;
         MotionAudit.Run();CinematicAudit.Run();
-        var report=BuildPipeline.BuildPlayer(new[]{ScenePath},"../Echoes of the Force v12.app",BuildTarget.StandaloneOSX,BuildOptions.None);
+        var report=BuildPipeline.BuildPlayer(new[]{ScenePath},"../Echoes of the Force v13.app",BuildTarget.StandaloneOSX,BuildOptions.None);
         if(report.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new Exception("Build failed: "+report.summary.result);
         Debug.Log("FORCE_DEMO_BUILD_OK");
     }

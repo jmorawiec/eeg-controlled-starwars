@@ -1,0 +1,10 @@
+{
+  "source": "KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input@57f56f9",
+  "repeats": 4, "relaxSeconds": 5, "timeoutSeconds": 20,
+  "scenarios": [
+    {"ability":"Push", "spell":"push_with_push", "trigger":"Imagine pushing an object away.", "gesture":"Push both hands forward.", "minimumSeconds":0.3},
+    {"ability":"Heal", "spell":"heal", "trigger":"Focus on healing, without extra muscle tension.", "gesture":"Use your trained Heal hand pose.", "minimumSeconds":1.5},
+    {"ability":"Choke", "spell":"choke_squeeze", "trigger":"Imagine squeezing the target.", "gesture":"Use your trained Choke squeeze gesture.", "minimumSeconds":1.5},
+    {"ability":"Lightning", "spell":"lightning_push", "trigger":"Imagine sending lightning out from your hands.", "gesture":"Use your trained Lightning push gesture.", "minimumSeconds":1.5}
+  ]
+}

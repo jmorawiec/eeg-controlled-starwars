@@ -33,3 +33,12 @@ __pycache__/
 /Assets/VolumetricLines.meta
 /Assets/Resources/Generated/BladeVolumetric.mat
 /Assets/Resources/Generated/BladeVolumetric.mat.meta
+
+# Generated adapter payload; staged by NeuroBridgeBuild from the pinned submodule.
+/Assets/StreamingAssets/NeuroBridge/
+/Assets/StreamingAssets/NeuroBridge.meta
+# Participant recordings, models and Python environments must remain local.
+InputProfiles/
+UserData/
+.venv/
+*.log
