@@ -14,4 +14,4 @@ References:
 - [Game Accessibility Guidelines — UI contrast](https://gameaccessibilityguidelines.com/provide-high-contrast-between-text-ui-and-background/): readable text against changing backgrounds.
 - [Making Color Usage Accessible](https://www.section508.gov/create/making-color-usage-accessible/): information must not rely solely on color recognition.
 
-The project retains the working Force powers, directional locomotion, tutorial/wave/boss structure and controller support from the previous implementation. The README describes the current build and active animations.
+The project retains the working Force powers, directional locomotion, tutorial/wave/boss structure and controller support from the previous implementation. The [project README](../README.md) describes the current build and active animations.

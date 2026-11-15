@@ -1,6 +1,6 @@
 # Complete project verification
 
-Branch: `unity/full-project-v13`, Unity **6000.6.9f1**.
+Historical verification of the v13 snapshot, now included on `main`. Unity **6000.6.9f1**. These checks were recorded before the documentation reorganization.
 
 - All 866 asset files from the original complete local project are present. Source contents match, with standard Git text line-ending normalization.
 - A copy without a pre-existing Unity Library imported successfully and produced a macOS build. LightHero, Clovis and Explorer meshes, avatars, materials and animation controllers resolved; motion and combat audits passed.

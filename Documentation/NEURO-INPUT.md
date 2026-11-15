@@ -1,6 +1,6 @@
 # Gesture + EEG integration (v13)
 
-The teammate project is included directly in `External/GestureInput` at revision `57f56f9dcbaca4f6e177c91bb25299c8be6e2447`. This complete-project branch includes its runtime source, models and the prepared StreamingAssets adapter; no submodule initialization is required. See `External/GestureInput/UPSTREAM.md` for provenance.
+The teammate project is included directly in `External/GestureInput` at revision `57f56f9dcbaca4f6e177c91bb25299c8be6e2447`. The repository includes its runtime source, models and the prepared StreamingAssets adapter; no submodule initialization is required. See `External/GestureInput/UPSTREAM.md` for provenance.
 
 The integration keeps the existing movement, camera, attack, block and roll controls. EEG mode owns the four Force powers. The game's interface remains in English.
 

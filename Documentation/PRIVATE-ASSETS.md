@@ -1,5 +1,7 @@
-# Complete-project branch
+# Included third-party assets
 
-On **unity/full-project-v13**, all four Asset Store packages used by the game are included with their original metadata. No separate package import or restoration step is needed to play in Unity. See the root README for the complete checkout instructions.
+The `main` branch includes all four Asset Store packages used by the game, with their original Unity metadata. No separate package import or restoration step is needed. Follow the [project checkout instructions](../README.md#open-in-unity), including Git LFS setup.
 
-The main branch has a different packaging policy and keeps these packages local. This document's former restoration instructions apply to that main-branch layout, not to the complete-project branch. Third-party assets retain their license terms and attributions listed in ASSET-CREDITS.md.
+Third-party assets retain their original license terms. See [asset sources and licenses](ASSET-CREDITS.md) and the license notices included with each package.
+
+`tools/restore-private-assets.py` is retained as a legacy helper for older checkouts; it is not part of the current setup.

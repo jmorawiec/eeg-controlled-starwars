@@ -1,56 +1,148 @@
-# Echoes of the Force — complete Unity project v13
+# Echoes of the Force
 
-This is the **`unity/full-project-v13`** branch. It contains the complete playable Unity project: character models, textures, humanoid animations, materials, shaders, environment assets, prefabs, scene, settings, and the prepared gesture/EEG adapter. The teammate input source is included directly at its pinned revision; there is no submodule setup step on this branch.
+**What if using the Force took more than pressing a button?**
 
-## Open and play
+*Echoes of the Force* is a Star Wars-inspired game prototype that turns Force abilities into something you **perform**, not just select. A camera recognizes your hand gestures, while an EEG headset looks for a trained pattern of mental intent. To cast a power, you need both.
 
-Install **Git LFS** and **Unity 6000.6.9f1**. Then:
+Choose the path of a Jedi or a Sith, learn to control your abilities, and put them to the test in a short, playable adventure. Our goal is simple: make a moment of gameplay feel a little closer to the way we've always imagined using the Force.
 
-```sh
+**Your hands choose the power. Your mind completes the action.**
+
+## Feel the Force
+
+Most games ask you to press a button to use a special ability. We wanted to try something more physical and personal.
+
+With our experimental control system, casting a Force ability takes two steps:
+
+1. **Make the gesture.** A webcam and computer-vision model recognize which power you're trying to use.
+2. **Focus your intent.** An EEG headset measures brain activity, and a model calibrated to you checks for the learned signal associated with imagining that action.
+
+Only when the gesture and EEG decision agree does the game activate the power. The camera tells the game *what* you're trying to do; the EEG signal helps decide *whether* it happens.
+
+This isn't mind reading, and it doesn't recognize arbitrary thoughts. It's an experiment in combining recognizable movements with individually trained brain-signal patterns to create a more immersive way to play.
+
+## Choose your side
+
+Your choice changes the powers available to you:
+
+| Jedi - Light Side | Sith - Dark Side |
+| --- | --- |
+| **Force Push** - Send a burst of energy at your enemies. | **Force Lightning** - Channel electricity at your enemies. |
+| **Force Heal** - Recover when the fight turns against you. | **Force Choke** - Hold an enemy in your grasp. |
+
+Each ability has its own gesture and trained EEG response. Together with regular movement and lightsaber combat, they give the two paths a different feel.
+
+## What's playable
+
+The hackathon prototype is a small but complete gameplay experience, built in Unity. It includes:
+
+- **Jedi or Sith selection** with two Force powers for each side.
+- **An introductory tutorial** that teaches the unconventional controls.
+- **Two waves of enemies** where you can put your abilities into practice.
+- **A boss fight** that serves as the final challenge.
+- **Third-person combat** with movement, attacks, blocking, dodging, and lock-on.
+- **Two input modes:** a self-contained simulation for trying the game without hardware, and an experimental camera + EEG mode.
+
+The experience is designed to be approachable for someone picking it up at a demo, even if they've never worked with EEG or gesture controls before.
+
+## How it works
+
+The prototype connects three parts:
+
+**Computer vision - recognizing the gesture**
+
+A webcam tracks both hands. Using MediaPipe hand landmarks and a gesture classifier, the system identifies Push, Heal, Choke, or Lightning.
+
+**EEG - recognizing trained intent**
+
+A BCI Core-8 headset records brain activity. During personal calibration, the player practices gestures both with and without imagining the corresponding action. A model trained on that person's recordings learns to distinguish the two conditions.
+
+**Unity - bringing the power into the game**
+
+The input bridge combines the camera and EEG decisions. Once both conditions are satisfied, it sends an ability event to the Unity game, which handles the effect, animation, and gameplay rules.
+
+The two signals serve different purposes. A gesture alone isn't enough to cast a power in real EEG mode.
+
+For the implementation details, see [Gesture + EEG integration](Documentation/NEURO-INPUT.md) and the [gesture-recognition source](External/GestureInput/README.md).
+
+## Built for fans - and for the crowd
+
+We see this as more than an unusual control experiment. Imagine a Star Wars fan stepping up at a convention, choosing a side, raising their hands, concentrating, and seeing a Force power come to life on a large screen. The player gets a personal challenge; the audience gets a moment they can follow and react to.
+
+Our longer-term idea is a **bookable, staff-guided experience** for fan events and conventions, with the game shown on a large display so spectators can share in the action. We'd like to develop the prototype alongside event organizers and eventually test it in a real event setting.
+
+That is a direction we want to explore, **not an event-ready service today**.
+
+## Where we are today
+
+This project began as a hackathon prototype, and the biggest challenge wasn't building a gesture or EEG pipeline in isolation - it was getting enough reliable, person-specific EEG training data in the time available.
+
+Recording useful examples takes time and attention. The hackathon schedule, a small pool of available volunteers, and participant fatigue made extended data collection difficult. As a result, **real EEG play currently requires individual calibration, taking roughly 20 minutes per person**. It is not yet a put-on-the-headset-and-play experience.
+
+We chose to make that limitation explicit rather than promise universal detection we haven't demonstrated. Simulation mode is available immediately; real EEG mode is experimental and depends on hardware, signal quality, and successful personal training.
+
+### What we'd like to improve next
+
+- Collect a larger, more diverse set of carefully recorded EEG sessions.
+- Study how well the trained model works across people and repeated sessions.
+- Reduce calibration time and improve the reliability of recognizing intent.
+- Make the hardware setup easier for staff and first-time players.
+- Pilot a guided experience with an event organizer once the controls are dependable enough.
+
+The long-term goal is a more general solution that needs little or no calibration for each new player. That's a research and development goal, not something the current prototype can do yet.
+
+## Try the prototype
+
+The Unity game runs in **Simulation** mode by default, so you can explore the tutorial, combat, Force powers, enemy waves, and boss fight **without an EEG headset, camera, or Python setup**.
+
+### Requirements
+
+- Unity **6000.6.9f1** (use this exact editor version)
+- Git and **Git LFS** for the large Unity assets
+
+### Open in Unity
+
+```bash
 git lfs install
-git clone --branch unity/full-project-v13 --single-branch https://github.com/jmorawiec/eeg-controlled-starwars.git
+git clone https://github.com/jmorawiec/eeg-controlled-starwars.git
 cd eeg-controlled-starwars
 git lfs pull
 ```
 
-Open the cloned folder in Unity Hub using **6000.6.9f1**. Wait for the first import and Unity Package Manager to restore the pinned packages. The playable **Temple** scene opens automatically in a fresh Editor session. Press **Play**.
+Open the project folder in Unity Hub with **Unity 6000.6.9f1**, let the assets import, and open the **Temple** scene if it isn't already open. Press **Play** to begin.
 
-The game starts in **Simulation** mode. Keyboard/mouse and PlayStation controls work immediately, including the tutorial, both sides, four Force powers, opening cinematic, two waves and boss. **Settings → Start training** runs the 32-trial input practice without Python or a headset.
+### Basic controls
 
-If Git LFS is missing, large files will remain small text pointers rather than actual models and textures. Run `git lfs install` and `git lfs pull` before opening the Editor. A normal checkout/pull with LFS installed restores the assets automatically.
-
-## Included project content
-
-- Adventure Female, MP_Clovis, Human Basic Motions FREE and Volumetric Lines source files, with their original `.meta` identifiers.
-- Prepared Light/Dark characters, armored enemies, humanoid controllers, Quaternius combat clips, weapon, materials and shaders.
-- Poly Haven environment models and textures, Unity Companion License sources and generated scene variants.
-- The prepared `Assets/StreamingAssets/NeuroBridge/` payload, including runtime hand models and the baseline EEG model.
-- The pinned teammate source at `External/GestureInput` (commit `57f56f9dcbaca4f6e177c91bb25299c8be6e2447`), directly included rather than linked as a submodule.
-
-Unity's cache, temporary files, machine-specific Python environments and participant recordings are not project dependencies and are not versioned. Unity recreates its cache on first import. Third-party assets retain their original license terms; see [asset credits](ASSET-CREDITS.md) and the included license notices.
-
-## Controls
-
-| Action | Keyboard and mouse | PlayStation |
+| Action | Keyboard / mouse | PlayStation controller |
 | --- | --- | --- |
-| Move / camera | WASD / mouse | Left / right stick |
-| Attack / block | LMB or J / hold RMB or K | R1 / hold L1 |
-| Roll | Space | ○ |
-| Force powers | Q / E | R2 / L2 |
-| Lock-on | Tab / middle mouse | △ |
+| Move / look | WASD / mouse | Left / right stick |
+| Attack / block | Left mouse or J / hold right mouse or K | R1 / hold L1 |
+| Roll | Space | Circle |
+| Force ability shortcuts (Simulation) | Q / E | R2 / L2 |
+| Lock on | Tab / middle mouse | Triangle |
 | Sprint / pause | Left Shift / Escape | L3 / Options |
-| Confirm / back | Enter / Escape | × / ○ |
 
-Light: **Force Push / Force Heal**. Dark: **Force Lightning / Force Choke**. Simulation gestures: hold **Z / X / C / V**, adding **Ctrl** for imagined intent. In training, pad **R1** performs the requested simulated gesture; **L1** adds imagination.
+To rehearse Force gestures in Simulation mode, hold **Z / X / C / V** for **Push / Heal / Choke / Lightning**. Add **Ctrl** to simulate the imagination condition. Under **Settings → Start training**, you can try the 32-trial practice session. This is a simulation of the interaction, not an actual EEG recording or calibration.
 
-## Optional real EEG mode
+### Real camera + EEG input
 
-The default simulation is self-contained. Real camera/headset input additionally requires the BCI Core-8, an appropriate Python 3.11 environment and OS device access. See [EEG setup and personal training](Documentation/NEURO-INPUT.md). The complete Unity asset snapshot does not replace device drivers or a person's EEG calibration. Personal recordings and models stay under `Application.persistentDataPath/InputProfiles/`.
+Real-input mode additionally requires a **BCI Core-8 EEG headset**, a webcam, Python **3.11**, appropriate system/device access, and a trained personal profile. The supplied baseline model does not unlock casting for a new player; they must complete their own calibration.
 
-## Verification and builds
+See [EEG setup and personal training](Documentation/NEURO-INPUT.md) for installation, training, device setup, and troubleshooting. Personal recordings and trained models are stored outside the repository in Unity's persistent player-data directory.
 
-**Force Demo → Verify complete project** checks the included source assets, three prepared character rigs, materials and animation dependencies. `CompleteProjectBootstrap.VerifyAndBuild` performs that check and builds the macOS application. `DemoBuild.BuildPreparedMac` rebuilds from the prepared assets.
+## Inside the repository
 
-The runtime supports `--verify-demo`, `--verify-neuro` and `--verify-opening`. An isolated port can be selected with `--neuro-port=5567` and reports directed with `--qa-output=/absolute/path`.
+- [`Documentation/`](Documentation/README.md) - setup guides, asset credits, demo media, and verification reports.
+- [`Assets/`](Assets/) - Unity scenes, scripts, characters, animation, effects, and game content.
+- [`Packages/`](Packages/) and [`ProjectSettings/`](ProjectSettings/) - Unity dependencies and editor configuration.
+- [`External/GestureInput/`](External/GestureInput/) - hand-gesture and EEG processing source included with the project.
+- [`tools/NeuroBridge/`](tools/NeuroBridge/) - the Python adapter connecting real inputs to Unity.
+- [`Documentation/NEURO-INPUT.md`](Documentation/NEURO-INPUT.md) - hardware setup, calibration, and technical details.
+- [`Documentation/ART-DIRECTION.md`](Documentation/ART-DIRECTION.md) - the visual and gameplay direction.
+- [`Documentation/ASSET-CREDITS.md`](Documentation/ASSET-CREDITS.md) - asset sources and third-party credits.
 
-[Complete snapshot verification](Documentation/COMPLETE-PROJECT-VERIFICATION.md) · [Training screen](Documentation/training-v13.png) · [Original v13 integration checks](Documentation/verification-v13.txt) · [Visual direction](ART-DIRECTION.md)
+This repository contains a playable Unity project and its integration code. Hardware-dependent behavior still needs to be tested with a real headset and camera; passing simulated integration checks should not be treated as proof of real-world EEG accuracy.
+
+---
+
+*Echoes of the Force* is an unofficial, Star Wars-inspired fan prototype. It is not affiliated with or endorsed by Lucasfilm or Disney. Any public or commercial use of protected Star Wars intellectual property would require appropriate permissions.
