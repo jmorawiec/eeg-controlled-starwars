@@ -1,6 +1,6 @@
-# Echoes of the Force — demo v12
+# Echoes of the Force — demo v13
 
-A Heroes of the Brain demo with Light and Dark paths, a third-person camera, a mentor tutorial, two enemy waves and a boss. Supports keyboard and mouse and PlayStation controller layouts. EEG and gesture input are planned for a later stage.
+A Heroes of the Brain demo with Light and Dark paths, a third-person camera, a mentor tutorial, two enemy waves and a boss. Supports keyboard and mouse and PlayStation controller layouts. Gesture and EEG input, per-player training and a hardware-free simulator are included in v13; see [Neuro input](Documentation/NEURO-INPUT.md).
 
 ## Clone and restore dependencies
 
@@ -8,18 +8,18 @@ This public repository contains the Unity source project. Large redistributable 
 
 ```sh
 git lfs install
-git clone https://github.com/jmorawiec/eeg-controlled-starwars.git
+git clone --recurse-submodules https://github.com/jmorawiec/eeg-controlled-starwars.git
 cd eeg-controlled-starwars
 git lfs pull
 ```
 
 **Before opening a fresh clone, restore the four Asset Store packages described in [Local dependencies](Documentation/PRIVATE-ASSETS.md).** Their source files remain local and are intentionally excluded from this public repository. The project will not compile or reproduce the complete demo until they are restored. Cache folders and built applications are also excluded.
 
-[Opening preview](Documentation/opening-v12.mp4) · [Verification report](Documentation/verification-v12.txt)
+[Training screen](Documentation/training-v13.png) · [Neuro input setup](Documentation/NEURO-INPUT.md) · [Verification report](Documentation/verification-v13.txt) · [Opening preview](Documentation/opening-v12.mp4)
 
 ## Run
 
-If you have the separately distributed macOS build, extract `Echoes-of-the-Force-v12-macOS.zip` and open `Echoes of the Force v12.app`. Build archives are not committed here.
+If you have the separately distributed macOS build, extract `Echoes-of-the-Force-v13-macOS.zip` and open `Echoes of the Force v13.app`. Build archives are not committed here.
 
 Open the source project in **Unity 6000.6.9f1** and load `Assets/Scenes/Temple.unity`. **Input System 1.20.1** is pinned in the package manifest. The environment and actors are created when Play starts. The project uses the Built-in Render Pipeline.
 
@@ -81,6 +81,6 @@ Light: **Force Push** — Q / R2; **Force Heal** — E / L2. Dark: hold Q / R2 f
 
 `CinematicBuild.BuildAndRelease` refreshes the heroine, combat clips and materials before building. Prepared clips preserve stable identifiers. `CinematicAudit` checks hand movement and foot contact; `MotionAudit` checks that running does not move the model away from its capsule.
 
-Opt-in application checks: `--verify-demo`, `--verify-motion`, `--verify-opening`, `--verify-performance`, `--ui-review` and `--art-review`. Direct reports and captures with `--qa-output=/absolute/path`. The opening verification also records frames and timestamps for review. Normal launches do not run checks or reposition targets for verification. Controller mapping checks use synthetic input and do not constitute physical controller testing.
+Opt-in application checks: `--verify-demo`, `--verify-motion`, `--verify-opening`, `--verify-neuro`, `--verify-performance`, `--ui-review` and `--art-review`. Direct reports and captures with `--qa-output=/absolute/path`. The opening verification also records frames and timestamps for review. Normal launches do not run checks or reposition targets for verification. Controller mapping checks use synthetic input and do not constitute physical controller testing.
 
 See `ASSET-CREDITS.md` for asset sources and licenses and `ART-DIRECTION.md` for visual direction.

@@ -1,0 +1,3 @@
+[submodule "External/GestureInput"]
+	path = External/GestureInput
+	url = https://github.com/KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input.git
