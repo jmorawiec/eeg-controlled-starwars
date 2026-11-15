@@ -1,0 +1,2 @@
+# Small documentation figures are stored directly in Git.
+*.png -filter -diff -merge -text

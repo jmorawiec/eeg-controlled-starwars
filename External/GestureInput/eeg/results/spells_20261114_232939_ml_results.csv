@@ -1,0 +1,91 @@
+features,model,strategy,window_bacc,trial_bacc
+csp_8_30,lda,per spell,0.6205882352941177,0.825
+bands_raw,logreg,pooled,0.6191176470588236,0.825
+bands_raw,lda,pooled,0.6191176470588236,0.825
+csp_8_30,svm_rbf,per spell,0.6441176470588235,0.8
+bands_raw,svm_rbf,pooled,0.6205882352941177,0.8
+csp_8_30,knn15,per spell,0.6132352941176471,0.8
+cov_8_30,logreg,per spell,0.6044117647058823,0.8
+cov_8_30,lda,per spell,0.6161764705882353,0.775
+csp_8_30,grad_boost,per spell,0.598529411764706,0.775
+csp_8_30,knn15,pooled,0.6499999999999999,0.7749999999999999
+cov_8_30,svm_rbf,per spell,0.6367647058823529,0.7749999999999999
+csp_8_30,random_forest,per spell,0.6220588235294118,0.7749999999999999
+csp_8_30,logreg,per spell,0.6102941176470589,0.7749999999999999
+bands_raw,grad_boost,pooled,0.6147058823529412,0.75
+csp_8_30,grad_boost,pooled,0.6132352941176471,0.75
+bands_raw,grad_boost,per spell,0.5838235294117646,0.75
+cov_8_30,random_forest,per spell,0.6014705882352942,0.725
+bands_raw,random_forest,per spell,0.5970588235294118,0.725
+csp_8_30,svm_rbf,pooled,0.6367647058823529,0.7
+csp_8_30,random_forest,pooled,0.6338235294117647,0.7
+cov_8_30,random_forest,pooled,0.6294117647058823,0.7
+bands_raw,random_forest,pooled,0.625,0.7
+bands_rel,logreg,pooled,0.6235294117647059,0.7
+csp_8_30,lda,pooled,0.6220588235294118,0.7
+bands_rel,lda,pooled,0.6191176470588236,0.7
+bands_rel_plus_spell,lda,pooled,0.6147058823529412,0.7
+bands_rel_plus_spell,logreg,pooled,0.6132352941176471,0.7
+cov_8_30,svm_rbf,pooled,0.6088235294117648,0.7
+bands_raw,svm_rbf,per spell,0.5970588235294119,0.7
+bands_rel,lda,per spell,0.5852941176470589,0.7
+cov_8_30,logreg,pooled,0.6455882352941176,0.675
+cov_8_30,lda,pooled,0.638235294117647,0.675
+csp_8_30,logreg,pooled,0.6220588235294118,0.675
+cov_8_30,grad_boost,pooled,0.6161764705882353,0.675
+bands_raw,logreg,per spell,0.6088235294117648,0.675
+beta_rel,lda,pooled,0.5911764705882353,0.675
+cov_8_30,knn15,pooled,0.5764705882352941,0.675
+bands_rel,svm_rbf,pooled,0.5647058823529412,0.675
+bands_raw,lda,per spell,0.5941176470588235,0.65
+beta_rel,logreg,pooled,0.5897058823529412,0.65
+cov_8_30,knn15,per spell,0.598529411764706,0.6499999999999999
+central_rel,random_forest,pooled,0.588235294117647,0.6499999999999999
+cov_8_30,grad_boost,per spell,0.5544117647058824,0.6499999999999999
+central_rel,logreg,pooled,0.6014705882352942,0.625
+psd2hz_rel,random_forest,pooled,0.5970588235294118,0.625
+beta_rel,random_forest,pooled,0.5941176470588235,0.625
+central_rel,lda,pooled,0.5926470588235294,0.625
+bands_rel,random_forest,pooled,0.5882352941176471,0.625
+bands_raw,knn15,pooled,0.5838235294117646,0.625
+bands_raw,knn15,per spell,0.5764705882352941,0.625
+bands_rel,logreg,per spell,0.5647058823529412,0.625
+psd2hz_rel,svm_rbf,pooled,0.5558823529411765,0.625
+bands_rel_plus_spell,svm_rbf,pooled,0.5544117647058824,0.625
+beta_rel,logreg,per spell,0.5514705882352942,0.625
+bands_rel,knn15,pooled,0.5455882352941177,0.625
+beta_rel,svm_rbf,pooled,0.5617647058823529,0.6000000000000001
+central_rel,grad_boost,pooled,0.538235294117647,0.6000000000000001
+bands_rel,grad_boost,pooled,0.5647058823529412,0.6
+beta_rel,lda,per spell,0.5529411764705883,0.6
+bands_rel_plus_spell,grad_boost,pooled,0.5441176470588236,0.6
+beta_rel,svm_rbf,per spell,0.5397058823529413,0.6
+bands_rel_plus_spell,random_forest,pooled,0.5970588235294118,0.575
+psd2hz_rel,grad_boost,pooled,0.5897058823529412,0.575
+central_rel,svm_rbf,pooled,0.5455882352941177,0.575
+beta_rel,random_forest,per spell,0.5397058823529411,0.575
+central_rel,lda,per spell,0.5352941176470588,0.575
+psd2hz_rel,logreg,pooled,0.5514705882352942,0.55
+psd2hz_rel,lda,pooled,0.5470588235294118,0.55
+psd2hz_rel,logreg,per spell,0.5397058823529413,0.55
+beta_rel,knn15,per spell,0.5352941176470588,0.55
+central_rel,logreg,per spell,0.5352941176470588,0.55
+psd2hz_rel,knn15,pooled,0.5279411764705882,0.55
+beta_rel,knn15,pooled,0.5235294117647058,0.55
+central_rel,grad_boost,per spell,0.4823529411764706,0.55
+beta_rel,grad_boost,pooled,0.5764705882352941,0.525
+bands_rel,svm_rbf,per spell,0.5441176470588235,0.525
+beta_rel,grad_boost,per spell,0.5279411764705882,0.525
+bands_rel_plus_spell,knn15,pooled,0.5161764705882352,0.525
+central_rel,svm_rbf,per spell,0.5073529411764706,0.525
+central_rel,random_forest,per spell,0.4823529411764706,0.525
+psd2hz_rel,lda,per spell,0.5426470588235295,0.5
+psd2hz_rel,svm_rbf,per spell,0.5338235294117647,0.5
+psd2hz_rel,knn15,per spell,0.5220588235294117,0.5
+psd2hz_rel,random_forest,per spell,0.5044117647058823,0.5
+central_rel,knn15,pooled,0.4911764705882353,0.5
+central_rel,knn15,per spell,0.47352941176470587,0.475
+bands_rel,grad_boost,per spell,0.5088235294117647,0.45
+psd2hz_rel,grad_boost,per spell,0.4779411764705882,0.45
+bands_rel,knn15,per spell,0.47352941176470587,0.45
+bands_rel,random_forest,per spell,0.4911764705882353,0.42500000000000004

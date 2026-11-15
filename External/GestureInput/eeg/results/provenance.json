@@ -1,0 +1,32 @@
+[
+  {
+    "file": "spells_20261114_232939_per_spell.png",
+    "source": "claude-workshop/plots/spells_20261114_232939_per_spell.png",
+    "sha256": "414a0e86c13c884282226f40770797fa046aa56fd7953bb148f08778db54cea5"
+  },
+  {
+    "file": "spells_20261114_232939_per_spell.csv",
+    "source": "claude-workshop/plots/spells_20261114_232939_per_spell.csv",
+    "sha256": "161ee4d0881bff42511a8f358767264b09f7c543b8f344f089fcff24ab7e0850"
+  },
+  {
+    "file": "spells_20261114_232939_per_spell_noC4.png",
+    "source": "claude-workshop/plots/spells_20261114_232939_per_spell_noC4.png",
+    "sha256": "5d5e70f1c77cdec70c471a848caaffa8f888a4a19edf52dcc68884cd0b69c15f"
+  },
+  {
+    "file": "spells_20261114_232939_per_spell_noC4.csv",
+    "source": "claude-workshop/plots/spells_20261114_232939_per_spell_noC4.csv",
+    "sha256": "22645709026d46c8a198e336f12a63fc85c680a35d0165b80d1eafbadfd0f58d"
+  },
+  {
+    "file": "spells_20261114_232939_ml.png",
+    "source": "claude-workshop/plots/spells_20261114_232939_ml.png",
+    "sha256": "dbdde69fe8a2ef0eaead7ff190dee6f6c3cce534f5028322e7b5e970e88c729e"
+  },
+  {
+    "file": "spells_20261114_232939_ml_results.csv",
+    "source": "claude-workshop/plots/spells_20261114_232939_ml_results.csv",
+    "sha256": "afe2e6cb09d99f164c2e815bf2aafcb42df96ed946125329e6aa2b2203ecf78a"
+  }
+]

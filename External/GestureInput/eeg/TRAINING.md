@@ -174,3 +174,13 @@ shows mostly as 8–30 Hz changes over posterior channels.
 `eeg/data/manifest.json`: per-recording `use`, `skip_spells`, `kind`
 (`cued` / `game`, otherwise taken from the name), `note`. Files not listed are
 used.
+
+## Recorded evaluation figures
+
+The original per-ability confusion matrices from the gel session `spells_20261114_232939` are available as figures:
+
+![Original held-out-repeat EEG confusion matrices from session 20261114_232939](results/spells_20261114_232939_per_spell.png)
+
+Rows indicate the actual condition (**gesture only**, **+ imagination**); columns indicate the decision (**DON'T**, **ACTIVATE**). The bottom row shows whole-trial counts, five trials per condition and ability. These figures describe an earlier single-session offline experiment, not the current model fitted on four sessions.
+
+See [recorded results and experimental context](RESULTS.md) for the original CSV files, the `noC4` variant, and model comparisons. Use `python -m eeg.train evaluate` with separate labelled recordings to assess a current personal model.

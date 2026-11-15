@@ -221,6 +221,16 @@ switch (e.@event) {
 | `tools/doctor.py` | `python -m eeg.tools.doctor [--scan] [--headset]` – packages, model, data, Bluetooth, headset stream |
 | `tests/test_training.py` | `python -m eeg.tests.test_training` – recorder, calibration, fit / calibrate / evaluate |
 
+## Recorded confusion matrices
+
+Original offline results from the single-player session `spells_20261114_232939`:
+
+![Recorded EEG confusion matrices for Lightning, Heal, Choke and Push](results/spells_20261114_232939_per_spell.png)
+
+The confusion matrices are in the bottom row: actual **gesture only / + imagination** versus predicted **DON'T / ACTIVATE**, five trials per condition and ability. These historical held-out-repeat results are separate from the live replay rates above and do not measure performance on new players.
+
+See [recorded results](RESULTS.md) for full-size figures, saved numerical results, the archived `noC4` comparison, and the exploratory classifier comparison.
+
 ## The models
 
 One logistic regression per spell on the log-covariance (8–30 Hz) of 1 s EEG
