@@ -43,6 +43,7 @@ public class ForceGame : MonoBehaviour {
     LineRenderer aimLine; LineRenderer channelLine; AudioSource audioSource;
     AudioClip pushSound, lightningClip, healSound, hitSound, chokeSound;
     public bool SkipInput;public NeuroInput neuro;
+    public readonly SenseiDialogue sensei=new SenseiDialogue();
 
     void Awake() {
         Application.targetFrameRate=60;QualitySettings.vSyncCount=0;Time.maximumDeltaTime=.05f;
@@ -122,6 +123,7 @@ public class ForceGame : MonoBehaviour {
             visuals.blocking=Blocking;visuals.attack=attackTimer>0?Mathf.Max(.001f,1-attackTimer/CombatTuning.AttackDuration(combo)):0;visuals.combo=combo;
             visuals.roll=dodgeTime>0?Mathf.Max(.001f,1-dodgeTime/CombatTuning.RollDuration):0;castPose=Mathf.Max(0,castPose-dt);visuals.channel=controls.Primary||controls.Secondary||castPose>0?1:0;
             UpdateEnemies(dt); UpdateBolts(dt); Progress(dt);
+            sensei.Tick(this,dt);
         } else { aimLine.enabled=false; }
         shake=Mathf.Max(0,shake-dt*2);
         audioSource.volume=MasterVolume*.5f;
@@ -133,14 +135,14 @@ public class ForceGame : MonoBehaviour {
         opening.Cancel();
         ClearCombat(); hitStopTime=lunge=castPose=hitMarker=0;side=chosen;BuildPlayer(chosen==ForceSide.Light); stage=DemoStage.Tutorial; stageTime=0; playTime=0; wave=0; kills=0;
         health=chosen==ForceSide.Light?58:100; energy=100; primaryCooldown=secondaryCooldown=dodgeCooldown=dodgeTime=0;
-        primaryPractice=secondaryPractice=0; tutorialStep=0; paused=false; Time.timeScale=1;
+        primaryPractice=secondaryPractice=0; tutorialStep=0; sensei.Reset(); paused=false; Time.timeScale=1;
         hurtFlash=healGlow=shake=lightningSound=channelVfx=0;
         Teleport(new Vector3(0,0,-5));player.rotation=Quaternion.identity;facing=Vector3.forward;stamina=100;attackTimer=guardBroken=staminaDelay=blockTime=0;combo=0;AttackQueued=false;lockedTarget=null;basicPractice=blockPractice=rollPractice=0;
         visuals.SetAccent(Accent);{var mv=mentor?mentor.GetComponent<CharacterVisual>():null;if(mv)mv.SetAccent(Accent);}visuals.roll=visuals.attack=0;visuals.blocking=false;orbit.ResetView();inputGrace=.25f;
         UpdateCursor();
         Spawn(new Vector3(-2.5f,0,2),true); Spawn(new Vector3(3,0,4),true);
         if(playOpening){stage=DemoStage.Opening;opening.Play();UpdateCursor();}
-        else Notify(chosen==ForceSide.Light?"Master Auren: Balance gives the Force direction.":"Master Veyr: Feel its energy. Bend it to your will.",5);
+        else Notify(chosen==ForceSide.Light?"Master Auren: Balance gives the Force direction.":"Darth Veyr: Feel its energy. Bend it to your will.",5);
     }
     public void FinishOpening(){
         opening.Cancel();stage=DemoStage.Tutorial;stageTime=0;inputGrace=.35f;noticeTime=0;orbit.ResetView();view.fieldOfView=62;UpdateCursor();

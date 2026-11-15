@@ -245,6 +245,7 @@ public class ForceHUD : MonoBehaviour {
     void HUD() {
         if(!game.Playing)return;
         if(game.stage==DemoStage.Tutorial) Tutorial();
+        Sensei();
         if(game.stage==DemoStage.Waves) Label(new Rect(500,40,600,34),"Wave "+game.wave+"/2 · Remaining "+game.enemies.Count,18,text,false,TextAnchor.UpperCenter);
         if(game.stage==DemoStage.Boss){
             var enemy=game.enemies.Find(x=>x.boss);
@@ -267,6 +268,14 @@ public class ForceHUD : MonoBehaviour {
         Label(new Rect(x,y,31,31),key,15,text,true,TextAnchor.MiddleCenter);
         Label(new Rect(x+44,y+3,205,31),name,18,cooldown>0?muted:text);
         if(cooldown>0){Label(new Rect(x+242,y+3,70,30),cooldown.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)+" s",16,muted,false,TextAnchor.UpperRight);Bar(x+44,y+32,266,2,1-cooldown/duration,game.Accent);}
+    }
+    void Sensei(){
+        var d=game.sensei;if(d.Time<=0||string.IsNullOrEmpty(d.Text))return;
+        float alpha=Mathf.Clamp01(d.Time*2);Color old=GUI.color;GUI.color=new Color(1,1,1,alpha);
+        Box(new Rect(330,668,940,96),panel);Box(new Rect(330,668,3,96),game.Accent);
+        Label(new Rect(352,678,900,26),d.Speaker,18,game.Accent,true);
+        Label(new Rect(352,704,900,56),d.Text,20,text);
+        GUI.color=old;
     }
     void Tutorial(){
         string copy;

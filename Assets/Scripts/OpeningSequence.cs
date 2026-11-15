@@ -17,8 +17,8 @@ public class OpeningSequence : MonoBehaviour {
     public string Subtitle {
         get {
             if(Elapsed<4.1f)return "Valley of Echoes";
-            if(Elapsed<8.5f)return game.side==ForceSide.Light ? "Auren: Find your balance. Then reach out." : "Veyr: Reach out. Make the Force obey.";
-            return game.side==ForceSide.Light ? "Auren: Your training begins here." : "Veyr: Show me what you can do.";
+            if(Elapsed<8.5f)return game.side==ForceSide.Light ? "Master Auren: Find your balance. Then reach out." : "Darth Veyr: Reach out. Make the Force obey.";
+            return game.side==ForceSide.Light ? "Master Auren: Your training begins here." : "Darth Veyr: Show me what you can do.";
         }
     }
     public float SubtitleOpacity {
