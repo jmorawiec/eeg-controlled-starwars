@@ -96,4 +96,4 @@ The `unity/full-project-v13` branch includes the Asset Store source folders and 
 
 ## Teammate gesture and EEG pipeline (v13)
 
-KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input, commit 57f56f9dcbaca4f6e177c91bb25299c8be6e2447, Apache License 2.0 (notice retained in the vendored source and staged runtime payload). The Unity adapter uses its gate, recorder, calibration and training code; the built-in simulator adapts its balanced training protocol. See Documentation/NEURO-INPUT.md. No new participant recordings are published.
+KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input, commit 57f56f9dcbaca4f6e177c91bb25299c8be6e2447, Apache License 2.0 (notice retained in the vendored source and staged runtime payload). The Unity adapter uses its gate, recorder, calibration and training code; the built-in simulator adapts its balanced training protocol. See the [EEG processing guide](../External/GestureInput/eeg/README.md). No new participant recordings are published.

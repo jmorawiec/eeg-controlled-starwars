@@ -63,7 +63,7 @@ The input bridge combines the camera and EEG decisions. Once both conditions are
 
 The two signals serve different purposes. A gesture alone isn't enough to cast a power in real EEG mode.
 
-For the implementation details, see [Gesture + EEG integration](Documentation/NEURO-INPUT.md) and the [gesture-recognition source](External/GestureInput/README.md).
+For implementation details, see the [EEG processing guide](External/GestureInput/eeg/README.md) and the [gesture-recognition source](External/GestureInput/README.md).
 
 ## Built for fans - and for the crowd
 
@@ -128,17 +128,15 @@ To rehearse Force gestures in Simulation mode, hold **Z / X / C / V** for **Push
 
 Real-input mode additionally requires a **BCI Core-8 EEG headset**, a webcam, Python **3.11**, appropriate system/device access, and a trained personal profile. The supplied baseline model does not unlock casting for a new player; they must complete their own calibration.
 
-See [EEG setup and personal training](Documentation/NEURO-INPUT.md) for installation, training, device setup, and troubleshooting. Personal recordings and trained models are stored outside the repository in Unity's persistent player-data directory.
+See [EEG setup](External/GestureInput/eeg/README.md) and [personal training](External/GestureInput/eeg/TRAINING.md) for installation, training, device setup, and troubleshooting. Personal recordings and trained models are stored outside the repository in Unity's persistent player-data directory.
 
 ## Inside the repository
 
-- [`Documentation/`](Documentation/README.md) - setup guides, asset credits, demo media, and verification reports.
+- [`Documentation/`](Documentation/README.md) - documentation index, asset credits, and demo media.
 - [`Assets/`](Assets/) - Unity scenes, scripts, characters, animation, effects, and game content.
 - [`Packages/`](Packages/) and [`ProjectSettings/`](ProjectSettings/) - Unity dependencies and editor configuration.
 - [`External/GestureInput/`](External/GestureInput/) - hand-gesture and EEG processing source included with the project.
 - [`tools/NeuroBridge/`](tools/NeuroBridge/) - the Python adapter connecting real inputs to Unity.
-- [`Documentation/NEURO-INPUT.md`](Documentation/NEURO-INPUT.md) - hardware setup, calibration, and technical details.
-- [`Documentation/ART-DIRECTION.md`](Documentation/ART-DIRECTION.md) - the visual and gameplay direction.
 - [`Documentation/ASSET-CREDITS.md`](Documentation/ASSET-CREDITS.md) - asset sources and third-party credits.
 
 This repository contains a playable Unity project and its integration code. Hardware-dependent behavior still needs to be tested with a real headset and camera; passing simulated integration checks should not be treated as proof of real-world EEG accuracy.
