@@ -90,10 +90,10 @@ Adventure Female (Free), Maksim Bugrimov, version 1.0, downloaded through the us
 
 Additional AO/roughness/metalness maps for Rabdentse Ruins Wall, Monastery Stone Floor and Mossy Cobblestone came from the same Poly Haven CC0 assets credited above.
 
-## Public repository packaging
+## Complete-project branch packaging
 
-Asset Store package source folders and the copied BladeVolumetric material are excluded from the public Git repository. The local complete project and private source archive retain them. See `Documentation/PRIVATE-ASSETS.md` for required packages and restoration. Project-authored wrappers reference the locally imported packages; screenshots and the gameplay preview show the assembled demo.
+The `unity/full-project-v13` branch includes the Asset Store source folders and the prepared BladeVolumetric material with their original metadata. Their original license terms remain in effect. The main branch keeps these dependencies local. See README.md for this branch's checkout instructions.
 
 ## Teammate gesture and EEG pipeline (v13)
 
-KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input, commit 57f56f9dcbaca4f6e177c91bb25299c8be6e2447, Apache License 2.0 (notice retained in the submodule and staged runtime payload). The Unity adapter uses its gate, recorder, calibration and training code; the built-in simulator adapts its balanced training protocol. See Documentation/NEURO-INPUT.md. No new participant recordings are published.
+KrzysztofEmerling/hand-gesture-recognition-mediapipe-for-game-input, commit 57f56f9dcbaca4f6e177c91bb25299c8be6e2447, Apache License 2.0 (notice retained in the vendored source and staged runtime payload). The Unity adapter uses its gate, recorder, calibration and training code; the built-in simulator adapts its balanced training protocol. See Documentation/NEURO-INPUT.md. No new participant recordings are published.
